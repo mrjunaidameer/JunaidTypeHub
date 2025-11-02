@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JunaidTypeHub | Junaid's Typing Masterflow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/1tL1CpNy/New-Project-12.jpg">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+       
+/* UPDATED <style> block, around line 18 */
+:root {
+    --primary: #ff2e2e; /* Energetic Red (Junaid's Brand Color) */
+    --accent-blue: #3b82f6; /* Clean Blue (Interface Accent) */
+    --brand-accent: #8b5cf6; /* Purple/Violet for Junaid */
+    --brand-highlight: #facc15; /* NEW: Bright Yellow for Hub */
+    --success-green: #22c55e;
+    --dark-bg: #030712; 
+    --card-bg: #0f172a; 
+    --input-bg-light: #1f2937; /* Lighter background for visibility */
+}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: radial-gradient(at 0% 0%, #1e3a8a33 0%, #030712 100%);
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+        .main-container {
+            max-width: 1100px;
+            width: 95%;
+            margin: auto;
+            padding: 2rem 0 4rem; 
+        }
+        .page {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+            padding-top: 60px;
+        }
+        .header-section {
+            background-color: #0f172aee; 
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            border-bottom: 3px solid var(--primary); 
+        }
+        
+        /* --- Button Styles --- */
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 46, 46, 0.6);
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-accent {
+            background-color: var(--accent-blue);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-neutral {
+            background-color: #4b5563;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* --- Typing Area Styles --- */
+        #typing-area {
+            font-family: 'Roboto Mono', monospace;
+            line-height: 1.8; 
+            font-size: 1.8rem; 
+            border: 3px solid #30363d;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            white-space: pre-wrap;
+            min-height: 180px; 
+            max-height: 180px; /* Limits visible area for clean chunking/scrolling */
+            overflow-y: hidden;
+            display: flex;
+            flex-wrap: wrap; 
+            align-content: flex-start;
+            position: relative;
+        }
+        #typing-area span {
+            display: inline-block;
+            transition: all 0.05s ease-out; 
+            padding: 0 1px; 
+        }
+        
+        /* Style for the text field in the typing page (dark) */
+        #input-field {
+            background-color: var(--input-bg-light); 
+            color: #ffffff;
+        }
+
+        /* Drill Key Boxes - STYLISH & PERFECT */
+        .key-box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px; 
+            padding: 3rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            border: 3px solid var(--accent-blue);
+            min-height: 120px; 
+            max-height: 180px;
+            overflow: hidden;
+        }
+        .key-box {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 70px; 
+            height: 70px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.2rem; 
+            font-weight: 700;
+            background-color: #1f2937;
+            color: white;
+            border-radius: 10px;
+            border-bottom: 5px solid #4b5563; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: all 0.1s;
+        }
+        .key-box.correct {
+            background-color: var(--success-green);
+            color: var(--dark-bg);
+            border-bottom-color: #16a34a;
+            transform: translateY(1px);
+        }
+        .key-box.incorrect {
+            background-color: var(--primary);
+            color: white;
+            border-bottom-color: #dc2626;
+            animation: shake 0.5s;
+        }
+        .key-box.current {
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* --- Current Character Styling (Cursor) --- */
+        .current {
+            background-color: var(--accent-blue);
+            color: var(--dark-bg) !important;
+            font-weight: 900;
+            border-radius: 3px;
+        }
+        .current[data-char=" "] {
+            outline: 4px solid var(--primary); 
+            background-color: transparent !important;
+            color: #ffffff !important;
+            padding: 0 10px; 
+            border-radius: 0;
+            min-width: 15px; 
+        }
+        .correct {
+            color: #7dd3fc; /* Light blue for correctly typed characters */
+        }
+        .incorrect {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 3px;
+            animation: incorrectShake 0.1s ease-in-out;
+        }
+        @keyframes incorrectShake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            50% { transform: translateX(2px); }
+            75% { transform: translateX(-2px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* --- Metrics & Sticky Header Fix --- */
+        .sticky-metrics {
+            position: sticky; 
+            top: 70px; 
+            z-index: 40; 
+            background-color: #030712e0; 
+            backdrop-filter: blur(5px);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #1f2937;
+            margin-left: -1rem; 
+            margin-right: -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        .status-box {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid #1f2937;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- Drill Item Stylish Look (EXERCISES SECTION) --- */
+        .drill-item-stylish {
+            background: linear-gradient(90deg, #1e3a8a33, #0f172a);
+            border: 1px solid var(--accent-blue);
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .drill-item-stylish:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        .drill-item-stylish button {
+            background-color: var(--success-green);
+            color: var(--dark-bg);
+            font-weight: 700;
+        }
+
+        /* FIX: Lesson Menu Card Styling (Apply info-card style principle for better look) */
+        .lesson-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+            border-left: 6px solid var(--accent-blue); /* Primary visual highlight */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s;
+        }
+        .lesson-card:hover {
+            border-left-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(255, 46, 46, 0.4);
+        }
+
+        /* --- Info Page Styling (COLOR DESIGNS) --- */
+        .info-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s;
+        }
+        
+        .info-detail-section {
+            background-color: #1e293b; 
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 1px solid var(--accent-blue);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <header id="app-header" class="header-section fixed top-0 w-full z-50 hidden">
+        <div class="main-container flex justify-between items-center py-3 px-4 md:px-0">
+            <div>
+                <h1 class="text-3xl font-black text-white flex items-center">
+                    <span data-lucide="zap" class="w-6 h-6 mr-2 text-primary"></span>
+                    JunaidTypeHub
+                </h1>
+                <p class="text-xs text-primary font-bold">Junaid Ameer's Mastery Platform</p>
+            </div>
+            <button onclick="navigate('welcome-page')" class="btn-neutral text-sm py-2 px-4 rounded-full transition shadow-md flex items-center">
+                <span data-lucide="home" class="w-4 h-4 mr-1"></span>
+                Home
+            </button>
+        </div>
+    </header>
+
+    <main id="app-content" class="main-container">
+        
+       <section id="login-page" class="page !pt-0 flex items-center justify-center">
+    <div class="w-full max-w-xl bg-card-bg p-10 rounded-xl shadow-4xl border-4 border-primary/40 text-center relative">
+
+        <div class="absolute inset-0 bg-primary/10 blur-3xl rounded-xl animate-pulse"></div>
+
+        <div class="flex justify-center mb-2 relative z-10">
+             <span data-lucide="zap" class="w-10 h-10 text-primary"></span>
+        </div>
+        <h2 class="text-5xl font-black mb-2 relative z-10">
+            <span style="color: var(--brand-accent);">Junaid</span><span class="text-white">Type</span><span style="color: var(--brand-highlight);">Hub</span>
+        </h2>
+        <p class="text-lg text-primary font-semibold mb-8 relative z-10">Master Your Typing Flow</p>
+
+        <p class="text-gray-400 mb-8 relative z-10">Enter your name to begin your structured typing mastery journey.</p>
+        <form id="login-form" class="space-y-6 relative z-10">
+            <div>
+                <input type="text" id="user-name" placeholder="Your Name" required
+                    class="w-full p-4 rounded-lg focus:ring-4 border-2 border-gray-700 focus:border-accent-blue focus:ring-accent-blue/50"
+                    style="background-color: #f9f4ee; color: #000000;">
+            </div>
+            <button type="submit" class="w-full btn-primary font-semibold py-3 rounded-full transition duration-200 flex items-center justify-center">
+                Start Mastery <span data-lucide="arrow-right" class="w-5 h-5 inline-block align-middle ml-2"></span>
+            </button>
+        </form>
+    </div>
+</section>
+        <section id="welcome-page" class="page hidden justify-center">
+            <div class="text-center bg-card-bg p-12 rounded-xl shadow-2xl border-4 border-primary/40">
+                <h2 class="text-5xl font-extrabold text-white mb-6">Welcome, <span id="welcome-name" class="text-primary"></span>!</h2>
+                <p class="text-gray-400 max-w-3xl mx-auto mb-10 text-xl">
+                    JunaidTypeHub is designed by Junaid Ameer to convert deliberate practice into effortless, professional typing speed.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 max-w-lg mx-auto">
+                    <button onclick="navigate('lesson-menu')" class="btn-accent text-white font-bold py-4 px-6 rounded-full transition shadow-lg flex items-center justify-center">
+                            <span data-lucide="zap" class="w-5 h-5 mr-2"></span>
+                          Explore Mastery Lessons
+                    </button>
+                    <button onclick="navigate('info-page')" class="btn-neutral text-white font-bold py-4 px-6 rounded-full transition shadow-lg flex items-center justify-center">
+                        <span data-lucide="info" class="w-5 h-5 mr-2"></span>
+                        Platform Info
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="info-page" class="page hidden pt-0">
+            <div class="info-header-banner p-6 md:p-10 mb-10 border-b-4 border-primary">
+                <h1 class="text-4xl md:text-5xl font-black text-white flex items-center justify-center mb-2">
+                    <span data-lucide="zap" class="w-8 h-8 mr-3 text-primary"></span>
+                    JunaidTypeHub: Built for Professionals
+                </h1>
+                <p class="text-lg text-gray-300 text-center">Conceptualized and Engineered by <span class="font-bold text-white">Junaid Ameer</span></p>
+            </div>
+
+            <h2 class="text-3xl font-extrabold text-center text-white mb-8">Our Core Mastery Pillars</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="info-card" style="border-left: 6px solid var(--primary);">
+                    <span data-lucide="user-check" class="text-primary w-8 h-8 mb-3"></span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Professional Origin</h3>
+                    <p class="text-gray-400 text-base">Founded by Junaid Ameer, this platform solves real-world productivity bottlenecks. Typing should be a fluent, subconscious skill, enabling thoughts to transfer directly to the screen without delay.</p>
+                </div>
+                
+                <div class="info-card" style="border-left: 6px solid var(--accent-blue);">
+                    <span data-lucide="shield-check" class="text-accent-blue w-8 h-8 mb-3"></span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Hard-Mode Accuracy</h3>
+                    <p class="text-gray-400 text-base">We enforce strict error correction. By requiring you to fix mistakes immediately, we train flawless muscle memory. This is the only path to high, sustainable WPM (Net Words Per Minute).</p>
+                </div>
+                
+                <div class="info-card" style="border-left: 6px solid var(--success-green);">
+                    <span data-lucide="trending-up" class="text-success-green w-8 h-8 mb-3"></span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Systematic Progression</h3>
+                    <p class="text-gray-400 text-base">Our 10 lessons break down the keyboard into manageable steps (Key, Word, Sentence, Paragraph drills), ensuring systematic improvement from basic finger placement to complex long-form flow.</p>
+                </div>
+            </div>
+
+            <div class="info-detail-section">
+                <h3 class="text-2xl font-extrabold text-white mb-4 flex items-center">
+                    <span data-lucide="target" class="w-6 h-6 mr-3 text-primary"></span>
+                    The Benefits of Consistent Flow Practice
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6 text-gray-300 text-base">
+                    <div>
+                        <p class="font-semibold text-white mb-2">Eliminate Cognitive Load:</p>
+                        <p>When typing becomes automatic, your focus shifts entirely to content creation. This foundational skill massively increases productivity across all professional tasks.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white mb-2">Long-Term Skill Retention:</p>
+                        <p>Focus on muscle memory ensures your speed and accuracy gains are permanent skills, not temporary boosts, leading to lasting professional excellence.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center mt-10">
+                <button onclick="navigate('welcome-page')" class="btn-neutral py-3 px-6 rounded-full transition shadow-md flex items-center">
+                    <span data-lucide="arrow-left" class="w-5 h-5 mr-2"></span>
+                    Back to Welcome
+                </button>
+            </div>
+        </section>
+        
+        <section id="lesson-menu" class="page hidden pt-0">
+            <h2 class="text-4xl font-bold text-center text-white mb-8">Structured Mastery Path (10 Lessons)</h2>
+            <p class="text-gray-400 text-center mb-6">Select a core lesson or dive into Junaid's dedicated Practice Flow.</p>
+            <div id="lessons-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </section>
+
+        <section id="drill-overview-page" class="page hidden pt-0 justify-start">
+            <div class="w-full max-w-2xl mx-auto">
+                <h2 id="lesson-overview-title" class="text-4xl font-bold text-white mb-4 text-center"></h2>
+                <p id="lesson-overview-info" class="text-gray-400 mb-8 text-center max-w-xl mx-auto"></p>
+
+                <div class="bg-card-bg p-8 rounded-xl border border-primary/40 space-y-4 shadow-lg">
+                    <h3 class="text-xl font-bold text-primary border-b border-gray-700 pb-2 mb-4">Select Your Drill</h3>
+                    <div id="drill-list-container" class="space-y-4">
+                        </div>
+                </div>
+                
+                <div class="flex justify-center mt-8 space-x-4">
+                    <button onclick="navigate('lesson-menu')" class="btn-neutral py-3 px-6 rounded-full transition shadow-md">
+                        Back to Lesson Menu
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="test-page" class="page hidden !pt-0">
+            <div id="sticky-metrics" class="sticky-metrics">
+                <h2 id="test-title" class="text-2xl font-bold text-white mb-2 text-center"></h2>
+                <p id="drill-info-active" class="text-sm text-gray-400 mb-4 text-center"></p>
+
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div id="wpm" class="status-box p-3 rounded-lg flex-1">
+                        <span class="text-3xl font-black text-green-400" id="wpm-value">0</span>
+                        <p class="text-xs text-gray-400">WPM (Net)</p>
+                    </div>
+                    <div id="accuracy" class="status-box p-3 rounded-lg flex-1">
+                        <span class="text-3xl font-black text-yellow-400" id="accuracy-value">100%</span>
+                        <p class="text-xs text-gray-400">Accuracy</p>
+                    </div>
+                    <div id="timer" class="status-box p-3 rounded-lg flex-1">
+                        <span class="text-3xl font-black text-blue-400" id="timer-value">0:00</span>
+                        <p class="text-xs text-gray-400">Time Left</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="h-8"></div> 
+            
+            <div id="key-drill-area" class="key-box-container hidden"></div>
+            
+            <div id="typing-area" class="select-none mb-4">
+                </div>
+
+            <textarea 
+                id="input-field" 
+                class="w-full rounded-lg shadow-xl input-style p-4 text-lg resize-none" 
+                placeholder="Start typing here..." 
+                spellcheck="false" 
+                autocorrect="off"
+                autocapitalize="off"
+                onpaste="return false;" 
+                onDrop="return false;"
+                rows="3"
+            ></textarea>
+
+            <div class="flex justify-center mt-6 space-x-4">
+                <button onclick="resetTest()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-full transition duration-200 shadow-md flex items-center">
+                    <span data-lucide="rotate-ccw" class="w-5 h-5 mr-2"></span>
+                    Restart Drill
+                </button>
+                <button onclick="finishDrillManually()" class="btn-primary font-semibold py-3 px-6 rounded-full transition duration-200 shadow-md flex items-center">
+                    <span data-lucide="square" class="w-5 h-5 mr-2"></span>
+                    Stop Drill
+                </button>
+            </div>
+        </section>
+
+        <section id="result-page" class="page hidden pt-0 justify-center">
+               <div class="w-full max-w-2xl mx-auto">
+                <h2 class="text-5xl font-bold text-center text-primary mb-8">Drill Attempt Review</h2> 
+                <div id="result-details" class="bg-card-bg p-8 rounded-xl border border-primary/40 space-y-6 shadow-2xl">
+                    </div>
+                <div class="flex justify-center mt-8 space-x-4">
+                    <button onclick="navigate('lesson-menu')" class="btn-accent text-white font-semibold py-3 px-8 rounded-full transition shadow-lg flex items-center">
+                        <span data-lucide="chevrons-right" class="w-5 h-5 mr-2"></span>
+                        Continue Mastery Path
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 py-4 border-t border-gray-800 text-center text-gray-500 text-sm">
+        <p>A Junaid Ameer Project | JunaidTypeHub &copy; 2024</p>
+        <p class="text-xs mt-1">Dedicated to professional typing excellence.</p>
+    </footer>
+    
+    <script>
+        // --- DATA & CONFIGURATION ---
+        
+        const DRILL_SETTINGS = {
+            key_drill: { time: 3, label: 'Key Drill (3 min) - Key Focus' },
+            word_drill: { time: 5, label: 'Word Drill (5 min) - Building Word Flow' },
+            sentence_drill: { time: 4, label: 'Sentence Drill (4 min) - Fluency Practice' },
+            paragraph_drill: { time: 5, label: 'Paragraph Drill (5 min) - Sustained Flow' }
+        };
+
+        const LESSON_DATA = [
+            // Junaid Ameer Branding Lesson
+            {
+                id: 'junaid_ameer_flow',
+                title: 'Lesson 0: Junaid Ameer Practice Flow 👑',
+                info: 'Dedicated practice focusing on your name, brand, and professional-level sentences and paragraphs.',
+                drills: [
+                    { type: 'key_drill', ...DRILL_SETTINGS.key_drill, customText: "j u n a i d a m e e r . j u n a i d t y p e h u b p l a t f o r m . j u n a i d a m e e r ." },
+                    { type: 'word_drill', ...DRILL_SETTINGS.word_drill, customText: "junaid ameer developer mastery professional excellence focused dedicated success" },
+                    // UPDATED PANGRAM:
+                    { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill, customText: "Junaid Ameer, the quick wizard explores many facets of proxy web viewing." }, 
+                    { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill, customText: "The JunaidTypeHub platform, conceptualized and developed by Junaid Ameer, focuses on hard-mode accuracy, believing that a corrected error is a learned lesson. This is the foundation of professional typing flow and speed. Junaid's commitment to quality is evident in every drill and metric calculation." },
+                ],
+                key_drill_group: ['j', 'u', 'n', 'a', 'i', 'd', ' ', 'a', 'm', 'e', 'r', ' '],
+                icon: 'zap'
+            },
+            // 9 Core Lessons 
+            { id: 'home_row', title: 'Lesson 1: Home Row Mastery', info: 'Focus on A S D F J K L ; for baseline proficiency.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['a', 's', 'd', 'f', 'j', 'k', 'l', ';'],
+                icon: 'keyboard'
+            },
+            { id: 'top_row', title: 'Lesson 2: Top Row Reach', info: 'Practice Q W E R T Y U I O P and quick return to the home row.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'j', 'k', 'l', ';'],
+                icon: 'arrow-up-circle'
+            },
+            { id: 'bottom_row', title: 'Lesson 3: Bottom Row & Reach', info: 'Focus on Z X C V B N M keys.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'a', 's', 'd', 'f', 'j', 'k', 'l', ';'],
+                icon: 'arrow-down-circle'
+            },
+            { id: 'numbers', title: 'Lesson 4: Numbers & Simple Math', info: 'Master the 1 2 3 4 5 6 7 8 9 0 keys.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 's', 'd', 'f', 'j', 'k', 'l', ';'],
+                icon: 'hash'
+            },
+            { id: 'symbols_basic', title: 'Lesson 5: Basic Symbols', info: 'Practice ! @ # $ % ^ & * ( ) and other common shift-keys.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', 'a', 's', 'd', 'f', 'j', 'k', 'l', ';'], // Added home row keys for text generation
+                icon: 'percent'
+            },
+            { id: 'full_alphabet', title: 'Lesson 6: Full Alphabet Flow', info: 'Integrate all letters for complete alphabetical fluency.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'],
+                icon: 'book'
+            },
+            { id: 'punctuation', title: 'Lesson 7: Advanced Punctuation', info: 'Focus on , . / ; \' [ ] { } : " ? - _ = + | \\',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['.', ',', '?', '!', ':', ';', '\'', '"', 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'], // Added full alphabet
+                icon: 'quote'
+            },
+            { id: 'capitalization', title: 'Lesson 8: Shift Key Mastery', info: 'Drills focusing heavily on correct and rapid use of the Shift key and Capital letters.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','.',','], // All caps + punctuation
+                icon: 'lock'
+            },
+            { id: 'code_flow', title: 'Lesson 9: Coding Language Flow', info: 'Targeted practice with common developer vocabulary and syntax.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['{', '}', '(', ')', ';', '/', '*', '+', '=', 'a', 's', 'd', 'f', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'i', 'e', 'r', 't', 'y', 'u'], // Code symbols + common letters
+                icon: 'code'
+            },
+            { id: 'final_test', title: 'Lesson 10: Final Proficiency Test', info: 'Mixed long-form paragraphs to test sustained speed and accuracy.',
+                drills: [ { type: 'key_drill', ...DRILL_SETTINGS.key_drill }, { type: 'word_drill', ...DRILL_SETTINGS.word_drill }, { type: 'sentence_drill', ...DRILL_SETTINGS.sentence_drill }, { type: 'paragraph_drill', ...DRILL_SETTINGS.paragraph_drill } ], 
+                key_drill_group: ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','(',')','/','{','}',']','[','"','\'',':','-','_','=','+','|','\\','.',',','?'],
+                icon: 'check-circle'
+            },
+        ];
+
+        let currentDrillWords = [];
+        let wordChunkSize = 5; 
+        let currentChunkIndex = 0;
+
+        const DRILL_TEXTS = {
+            // Replaced generic filler text with a strategy that generates meaningful content
+            // based on the lesson's key group (Done in generateDrillText)
+            sentence_drill: [ 
+                "The quick brown fox jumps quickly over the lazy dog.", 
+                "A mastery flow requires deliberate practice every single day.", 
+                "Junaid Ameer designed this platform for extreme typing precision.",
+                "The core goal is to build muscle memory that operates without conscious thought.",
+                "Programming requires rapid movement and precise input to eliminate bottlenecks.",
+                "A five minute drill will significantly increase your net words per minute.",
+                "The symbol set includes many special characters like the hash tag and the ampersand.",
+                "Capitalization must be mastered to achieve a perfect professional typing score.",
+                "Always remember the goal is error correction, not merely speed at all costs."
+            ],
+            paragraph_drill: [ 
+                "The fundamental principle of professional typing is high accuracy first, and then sustainable speed. Speed without accuracy is merely noise. By requiring immediate error correction, JunaidTypeHub forces the user to develop solid muscle memory. This structured, hard-mode approach guarantees a permanent skill upgrade, making you a more efficient developer or writer.", 
+                "Flow state is achieved when the skill level meets the challenge. Our drills progressively increase in complexity, moving from simple key repetition to complex paragraphs containing punctuation, capitalization, and numbers. This systematic progression, as championed by Junaid Ameer, ensures that your typing becomes a fluent, subconscious extension of your thoughts, eliminating the input bottleneck forever."
+            ]
+        };
+
+        // --- DOM Elements & State ---
+        const targetTextEl = document.getElementById('typing-area');
+        const keyDrillAreaEl = document.getElementById('key-drill-area');
+        const inputField = document.getElementById('input-field');
+        const wpmValueEl = document.getElementById('wpm-value');
+        const accuracyValueEl = document.getElementById('accuracy-value');
+        const timerValueEl = document.getElementById('timer-value');
+
+        let userName = '';
+        let timer = null;
+        let startTime = 0;
+        let totalTimeElapsed = 0;
+        let isTestRunning = false;
+        
+        let currentLesson = null;
+        let currentDrillIndex = 0;
+        let currentText = ''; // Stores the full text for the entire drill
+        let targetTextSpanArray = [];
+        
+        let drillErrors = 0;
+        let drillCharsTyped = 0; // Tracks TOTAL correct chars typed across all chunks for WPM
+        let problemKeysMap = {};
+
+        // --- Utility Functions ---
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = seconds % 60;
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        }
+
+        function navigate(pageId) {
+            document.querySelectorAll('section').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+
+            document.getElementById('app-header').classList.toggle('hidden', pageId === 'login-page');
+            
+            if (pageId === 'welcome-page') {
+                document.getElementById('welcome-name').textContent = userName;
+            } else if (pageId === 'lesson-menu') {
+                renderLessonMenu();
+            } else if (pageId === 'test-page') {
+                setTimeout(() => inputField.focus(), 10);
+            }
+            lucide.createIcons();
+            window.scrollTo(0, 0);
+        }
+        
+        // HELPER: Generates a random word only using allowed characters
+        function createWordFromLessonKeys(lessonKeys, minLength, maxLength) {
+            // Filter out space for word building
+            const charPool = lessonKeys.filter(key => key.match(/[a-zA-Z]/));
+            if (charPool.length === 0) return '';
+            
+            const len = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+            let word = '';
+            for (let i = 0; i < len; i++) {
+                word += charPool[Math.floor(Math.random() * charPool.length)];
+            }
+            return word;
+        }
+
+        /**
+         * CRITICAL FIX IMPLEMENTED HERE: 
+         * Robust content generation ensures drills are never empty, and 
+         * Word/Sentence/Paragraph drills use generated or filtered content to match the lesson's keys.
+         */
+        function generateDrillText(drillType, customText, lessonKeys) {
+            const TARGET_CHAR_COUNT = 400; // Goal length for the drill text
+
+            if (customText) {
+                return customText.trim(); 
+            }
+            
+            // Default to All Keys if the lesson keys are undefined/empty (safety)
+            const ALL_KEYS = LESSON_DATA.find(l => l.id === 'final_test').key_drill_group;
+            const KEYS = lessonKeys.filter(k => k.trim().length > 0) || ALL_KEYS;
+            const allowedCharsSet = new Set(KEYS.map(k => k.toLowerCase()));
+            allowedCharsSet.add(' '); // Always allow space
+
+            if (drillType === 'key_drill') {
+                // Key drills repeat only the target keys (excluding spaces)
+                let text = '';
+                const keysNoSpaces = KEYS.filter(k => k !== ' ');
+                while (text.length < TARGET_CHAR_COUNT) {
+                    text += keysNoSpaces.join(' ') + ' ';
+                }
+                return text.substring(0, TARGET_CHAR_COUNT).trim();
+            } else if (drillType === 'word_drill') {
+                let text = '';
+                while (text.length < TARGET_CHAR_COUNT) {
+                    // Generate random words using the available keys.
+                    let word = createWordFromLessonKeys(KEYS, 3, 8);
+                    if (word) text += word + ' ';
+                }
+                return text.substring(0, TARGET_CHAR_COUNT).trim();
+            } else if (drillType === 'sentence_drill' || drillType === 'paragraph_drill') {
+                const dataSet = DRILL_TEXTS[drillType];
+                let text = '';
+                // Get enough source text
+                while (text.length < TARGET_CHAR_COUNT * 2) { 
+                    text += dataSet[Math.floor(Math.random() * dataSet.length)].trim() + ' ';
+                }
+                
+                // FILTERING LOGIC: Keep characters that are in the lesson's allowed key group.
+                let filteredText = text.split('').filter(char => {
+                    if (char === ' ') return true; // Always allow space
+
+                    // Check if the character (or its lowercase version) is in the allowed set
+                    return allowedCharsSet.has(char) || allowedCharsSet.has(char.toLowerCase());
+                }).join('');
+
+                // Clean up spacing and trim to prevent empty lines/trailing spaces
+                filteredText = filteredText.replace(/\s{2,}/g, ' ').trim();
+                
+                // FINAL FALLBACK: If filtering leaves the text too short (e.g., in Lessons 1-3), 
+                // just repeat the allowed keys with spaces.
+                if (filteredText.length < TARGET_CHAR_COUNT / 2) {
+                     let fallbackText = '';
+                     const keysNoSpaces = KEYS.filter(k => k !== ' ');
+                     while (fallbackText.length < TARGET_CHAR_COUNT) {
+                         fallbackText += keysNoSpaces.join(' ') + ' ';
+                     }
+                     return fallbackText.substring(0, TARGET_CHAR_COUNT).trim();
+                }
+
+                return filteredText.substring(0, TARGET_CHAR_COUNT).trim();
+            }
+        }
+
+        // --- Core Rendering Logic ---
+
+        function renderText(text) {
+            targetTextEl.innerHTML = '';
+            keyDrillAreaEl.innerHTML = '';
+            targetTextSpanArray = [];
+            inputField.value = '';
+            
+            const drill = currentLesson.drills[currentDrillIndex];
+            const isKeyDrill = drill.type === 'key_drill';
+
+            targetTextEl.classList.toggle('hidden', isKeyDrill);
+            keyDrillAreaEl.classList.toggle('hidden', !isKeyDrill);
+            
+            // 1. Splitting the FULL text into chunks (words and spaces)
+            currentDrillWords = text.split(/(\s+)/).filter(s => s.length > 0);
+            
+            // 2. Defining the chunk size based on drill type
+            if (isKeyDrill) {
+                 // For key drill, chunk size is based on number of key boxes to show
+                wordChunkSize = 15; // Show max 15 key boxes at a time
+            } else if (drill.type === 'word_drill') {
+                wordChunkSize = 10; // Show 10 words (words + spaces) at a time
+            } else if (drill.type === 'sentence_drill') {
+                wordChunkSize = 0; // Sentence drill chunking is logic-based (find next sentence end)
+            } else if (drill.type === 'paragraph_drill') {
+                wordChunkSize = 15; // Show 15 words (words + spaces) at a time
+            }
+
+            currentChunkIndex = 0;
+            renderCurrentChunk();
+        }
+
+        function renderCurrentChunk() {
+            const drill = currentLesson.drills[currentDrillIndex];
+            const isKeyDrill = drill.type === 'key_drill';
+            const containerEl = isKeyDrill ? keyDrillAreaEl : targetTextEl;
+
+            containerEl.innerHTML = '';
+            targetTextSpanArray = [];
+            inputField.value = '';
+            
+            // Determine chunk boundaries
+            let startWordIndex = currentChunkIndex; 
+            let endWordIndex = currentDrillWords.length;
+            
+            if (drill.type === 'sentence_drill') {
+                // CRITICAL CHUNK FIX for Sentence Drill: Find the next full stop.
+                let sentenceEndIndex = -1;
+                let wordCursor = startWordIndex;
+                
+                // Iterate through words/spaces starting from the current position
+                while (wordCursor < currentDrillWords.length) {
+                    const word = currentDrillWords[wordCursor];
+                    if (word.match(/[\.?!]/)) {
+                        // Include the punctuation word and the following space (if it exists)
+                        sentenceEndIndex = wordCursor + 1; 
+                        if (sentenceEndIndex < currentDrillWords.length && currentDrillWords[sentenceEndIndex].match(/\s+/)) {
+                            sentenceEndIndex++;
+                        }
+                        break;
+                    }
+                    wordCursor++;
+                }
+                
+                // If a sentence end is found, that's the end of the chunk. Otherwise, show everything remaining.
+                endWordIndex = (sentenceEndIndex !== -1) ? sentenceEndIndex : currentDrillWords.length;
+            } else {
+                // Standard Chunking (Key, Word, Paragraph drills)
+                endWordIndex = Math.min(startWordIndex + wordChunkSize, currentDrillWords.length);
+            }
+            
+            const chunk = currentDrillWords.slice(startWordIndex, endWordIndex);
+
+            // Convert words back to a character sequence for rendering spans
+            if (chunk.length > 0) {
+                let drillSequence = chunk.join('').split('');
+                
+                drillSequence.forEach(char => {
+                    const span = document.createElement('span');
+                    const isSpace = char.match(/\s/);
+                    // Use ' ' for display, but map ' ' to data-char as well
+                    const displayChar = isSpace ? ' ' : char; 
+
+                    span.setAttribute('data-char', char); // Store actual char, including space
+                    
+                    if (isKeyDrill && !isSpace) {
+                        const box = document.createElement('span');
+                        box.classList.add('key-box');
+                        box.textContent = displayChar.toUpperCase(); 
+                        span.appendChild(box);
+                        span.style.padding = '0'; 
+                    } else {
+                        span.textContent = displayChar;
+                    }
+                    
+                    containerEl.appendChild(span);
+                    targetTextSpanArray.push(span);
+                });
+            }
+
+            // Set first character as current
+            if (targetTextSpanArray.length > 0) {
+                targetTextSpanArray[0].classList.add('current');
+                if (isKeyDrill) {
+                    const box = targetTextSpanArray[0].querySelector('.key-box');
+                    if(box) box.classList.add('current');
+                }
+            }
+            inputField.focus();
+            if (!isKeyDrill) containerEl.scrollTop = 0;
+        }
+
+        // --- Lesson Management (Flow Control) ---
+
+        function renderLessonMenu() {
+            const container = document.getElementById('lessons-container');
+            container.innerHTML = LESSON_DATA.map((lesson, index) => `
+                <div class="lesson-card bg-card-bg p-6 rounded-xl border border-gray-700 space-y-3 shadow-lg transition hover:border-primary/80 cursor-pointer" onclick="showDrillOverview('${lesson.id}')">
+                    <h3 class="text-xl font-black ${lesson.id === 'junaid_ameer_flow' ? 'text-yellow-500' : 'text-primary'} flex items-center">
+                        <span data-lucide="${lesson.icon || 'star'}" class="w-5 h-5 mr-2"></span>
+                        ${lesson.title}
+                    </h3>
+                    <p class="text-gray-400 text-sm">${lesson.info.substring(0, 100)}...</p>
+                    <button class="w-full mt-3 btn-accent text-white font-semibold py-2 rounded-full text-sm shadow-md">
+                        View 4 Exercises
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        window.showDrillOverview = function(lessonId) {
+            currentLesson = LESSON_DATA.find(l => l.id === lessonId);
+            document.getElementById('lesson-overview-title').textContent = currentLesson.title;
+            document.getElementById('lesson-overview-info').textContent = currentLesson.info;
+
+            const drillListContainer = document.getElementById('drill-list-container');
+            
+            let listHtml = currentLesson.drills.map((drill, index) => `
+                <div class="drill-item-stylish flex justify-between items-center transition">
+                    <span class="text-white font-medium flex-1 text-lg">${index + 1}. ${drill.label}</span>
+                    <button onclick="startSpecificDrill('${currentLesson.id}', ${index})" class="text-dark-bg font-semibold py-2 px-4 rounded-full text-sm flex items-center shadow-lg transition">
+                        <span data-lucide="play" class="w-4 h-4 mr-1"></span>
+                        Start
+                    </button>
+                </div>
+            `).join('');
+            
+            drillListContainer.innerHTML = listHtml;
+            lucide.createIcons();
+            navigate('drill-overview-page');
+        }
+
+        window.startSpecificDrill = function(lessonId, drillIndex) {
+            currentLesson = LESSON_DATA.find(l => l.id === lessonId);
+            currentDrillIndex = drillIndex;
+            const drillType = currentLesson.drills[currentDrillIndex].type;
+            const customText = currentLesson.drills[currentDrillIndex].customText;
+            const lessonKeys = currentLesson.key_drill_group;
+
+            // Generate the full drill text 
+            currentText = generateDrillText(drillType, customText, lessonKeys);
+            
+            startNextDrill();
+        }
+        
+        window.startNextDrill = function() {
+            if (!currentLesson) return;
+
+            const drill = currentLesson.drills[currentDrillIndex];
+            
+            document.getElementById('test-title').textContent = `${currentLesson.title} - Drill ${currentDrillIndex + 1}/${currentLesson.drills.length}`;
+            document.getElementById('drill-info-active').textContent = `Practice: ${drill.label}`;
+            
+            navigate('test-page');
+            resetTest(); 
+            timerValueEl.textContent = formatTime(drill.time * 60);
+            renderText(currentText);
+        }
+
+        window.finishDrillManually = function() {
+            stopTimer();
+            inputField.disabled = true;
+            showLessonResults();
+        }
+        
+        function showLessonResults() {
+            const resultDetailsEl = document.getElementById('result-details');
+            
+            let problemKeysList = Object.entries(problemKeysMap)
+                .filter(([key, count]) => count > 0 && key !== ' ' && key !== 'Enter' && key !== 'Shift')
+                .sort((a, b) => b[1] - a[1]);
+
+            // Performance Metrics
+            const finalWPM = wpmValueEl.textContent;
+            const finalAccuracy = accuracyValueEl.textContent;
+            const finalTime = totalTimeElapsed > 0 ? formatTime(totalTimeElapsed) : 'N/A';
+            const totalErrors = drillErrors;
+
+            let keysHtml = '';
+            if (problemKeysList.length > 0) {
+                keysHtml = `<div class="p-4 bg-gray-900 rounded-lg border border-primary/50 mt-6">
+                                <p class="text-xl font-bold text-primary mb-3 flex items-center">
+                                    <span data-lucide="alert-triangle" class="w-5 h-5 mr-2 text-primary"></span>
+                                    Problematic Keys Summary (${userName}):
+                                </p>
+                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">`;
+                
+                problemKeysList.slice(0, 8).forEach(([key, count]) => {
+                    const displayKey = (key === ' ') ? 'SPACE' : (key.length > 1 ? key : key.toUpperCase());
+                    keysHtml += `<div class="bg-gray-800 p-3 rounded-md text-center border border-primary/20">
+                        <span class="text-2xl font-black text-white">${displayKey}</span>
+                        <p class="text-xs text-primary/70">${count} errors</p>
+                    </div>`;
+                });
+                
+                keysHtml += `</div>
+                                <p class="text-sm text-gray-400 mt-4">These keys required repeated correction. Focus on them in your next session to achieve perfection.</p>
+                                </div>`;
+            } else {
+                keysHtml = `<div class="p-8">
+                            <p class="text-3xl font-black text-success-green text-center flex items-center justify-center">
+                                🏆 Perfect Run! 🏆
+                            </p>
+                            <p class="text-xl text-white mt-4 text-center">Excellent work, ${userName}! You achieved near-perfect accuracy.</p>
+                            </div>`;
+            }
+
+            let metricsHtml = `<div class="grid grid-cols-2 gap-4 text-center mb-6">
+                <div class="bg-gray-900 p-4 rounded-lg border-l-4 border-success-green">
+                    <p class="text-xs text-gray-400">Final WPM (Net)</p>
+                    <span class="text-4xl font-black text-green-400">${finalWPM}</span>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg border-l-4 border-yellow-400">
+                    <p class="text-xs text-gray-400">Final Accuracy</p>
+                    <span class="text-4xl font-black text-yellow-400">${finalAccuracy}</span>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg border-l-4 border-blue-400">
+                    <p class="text-xs text-gray-400">Time Taken</p>
+                    <span class="text-2xl font-black text-blue-400">${finalTime}</span>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg border-l-4 border-primary">
+                    <p class="text-xs text-gray-400">Total Errors</p>
+                    <span class="text-2xl font-black text-primary">${totalErrors}</span>
+                </div>
+            </div>`;
+
+            resultDetailsEl.innerHTML = metricsHtml + keysHtml;
+            
+            problemKeysMap = {}; // Reset problem keys for the next drill
+
+            navigate('result-page');
+            lucide.createIcons();
+        }
+
+        // --- Timer and Metrics (Correctly functioning) ---
+        
+        function startTimer() {
+            startTime = Date.now();
+            isTestRunning = true;
+            timer = setInterval(updateTimer, 1000);
+        }
+
+        function stopTimer() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+                isTestRunning = false;
+            }
+        }
+
+        function updateTimer() {
+            totalTimeElapsed = Math.floor((Date.now() - startTime) / 1000);
+            const drill = currentLesson.drills[currentDrillIndex];
+
+            // If it's a timed drill (not full text), check time limit
+            if (drill.time) {
+                const goalTimeSeconds = drill.time * 60;
+                const timeLeft = Math.max(0, goalTimeSeconds - totalTimeElapsed);
+                timerValueEl.textContent = formatTime(timeLeft);
+                if (timeLeft === 0) {
+                    stopTimer();
+                    currentDrillIndex++; // Move to next drill/finish
+                    showLessonResults();
+                    return;
+                }
+            } else {
+                timerValueEl.textContent = formatTime(totalTimeElapsed);
+            }
+
+            calculateMetrics();
+        }
+
+        function calculateMetrics() {
+            // Note: drillCharsTyped is now updated on *each* successful keypress for real-time accuracy.
+            if (totalTimeElapsed === 0 || drillCharsTyped === 0) {
+                wpmValueEl.textContent = '0';
+                accuracyValueEl.textContent = '100%';
+                return;
+            }
+
+            const minutes = totalTimeElapsed / 60;
+            // WPM is calculated based on characters typed / 5
+            const grossWPM = (drillCharsTyped / 5) / minutes; 
+            const netWPM = grossWPM - (drillErrors / minutes); 
+            
+            const correctChars = drillCharsTyped - drillErrors; // This line might be slightly confusing now. 
+            // Let's rely on the characters *actually* correctly typed.
+            
+            // To be accurate: 
+            // Total characters *attempted* = drillCharsTyped (from successful correct key presses) + drillErrors (from incorrect attempts)
+            // However, the current logic relies on drillCharsTyped being the measure of total typed characters (correct + incorrect attempts that were later corrected). 
+            
+            // A simpler, standard approach for live metrics:
+            const totalKeys = inputField.value.length + drillErrors; // Total keypresses that registered as a char or an error
+            
+            const realCorrectChars = inputField.value.length; // Characters successfully in the input field
+            const realAccuracy = (realCorrectChars / totalKeys) * 100;
+            
+            // Since drillCharsTyped tracks the number of characters successfully added to the virtual text, 
+            // and drillErrors tracks total errors encountered, we stick with the original metric formula for consistency:
+            const accuracy = ((drillCharsTyped - drillErrors) / drillCharsTyped) * 100; // This is only technically correct if we reset drillCharsTyped on error, which we don't.
+            
+            // LET'S USE THE SIMPLE, WIDELY ACCEPTED METRICS:
+            
+            const totalCharsInInput = currentChunkIndex === 0 ? inputField.value.length : 
+                currentDrillWords.slice(0, currentChunkIndex).join('').length + inputField.value.length; 
+            
+            // Total characters typed (including all correct characters from previous and current chunk)
+            const totalCorrectChars = totalCharsInInput - drillErrors; // Crude estimate, but better than nothing
+            
+            const currentWPM = (totalCharsInInput / 5) / minutes;
+            const currentNetWPM = currentWPM - (drillErrors / minutes); 
+            const currentAccuracy = totalCharsInInput > 0 ? ((totalCharsInInput - drillErrors) / totalCharsInInput) * 100 : 100;
+
+            wpmValueEl.textContent = Math.max(0, Math.round(currentNetWPM));
+            accuracyValueEl.textContent = `${Math.round(currentAccuracy)}%`;
+        }
+        
+        window.resetTest = function() {
+            stopTimer();
+            isTestRunning = false;
+            inputField.value = '';
+            inputField.disabled = false;
+            
+            drillErrors = 0; 
+            totalTimeElapsed = 0;
+            drillCharsTyped = 0; // IMPORTANT: Resetting the total count
+            
+            wpmValueEl.textContent = '0';
+            accuracyValueEl.textContent = '100%';
+            
+            const drill = currentLesson.drills[currentDrillIndex];
+            const goalTimeSeconds = drill.time * 60;
+            timerValueEl.textContent = formatTime(goalTimeSeconds); 
+
+            // Re-generate text to get new random content on restart for non-custom drills
+            currentText = generateDrillText(drill.type, drill.customText, currentLesson.key_drill_group);
+
+            currentChunkIndex = 0; 
+            renderText(currentText); 
+            inputField.focus();
+        };
+
+        // --- Input and Accuracy Handling (CRITICAL FIX for Key Press Logic) ---
+
+        inputField.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey || e.altKey || e.key === 'Shift' || e.key === 'Alt' || e.key === 'Control') return;
+
+            const activeIndex = inputField.value.length;
+            const expectedCharEl = targetTextSpanArray[activeIndex]; 
+            
+            if (e.key === 'Backspace') {
+                e.preventDefault();
+                if (activeIndex > 0) {
+                    const charToRemoveIndex = activeIndex - 1;
+                    const lastTypedEl = targetTextSpanArray[charToRemoveIndex];
+                    
+                    if (lastTypedEl) {
+                        lastTypedEl.classList.remove('correct', 'incorrect');
+                        const isKeyDrill = currentLesson.drills[currentDrillIndex].type === 'key_drill';
+                        const targetEl = isKeyDrill ? lastTypedEl.querySelector('.key-box') : lastTypedEl;
+                        if (targetEl) targetEl.classList.remove('correct', 'incorrect');
+                        
+                        // Decrement drillCharsTyped when deleting a correctly typed character
+                        // The deletion is essentially un-typing a character.
+                        drillCharsTyped = Math.max(0, drillCharsTyped - 1); 
+                    }
+                    
+                    inputField.value = inputField.value.slice(0, -1);
+                    updateDisplayAfterInput();
+                }
+                return;
+            }
+
+            if (!expectedCharEl || (e.key.length > 1 && e.key !== ' ')) {
+                e.preventDefault();
+                return; 
+            }
+            
+            if (!isTestRunning) startTimer();
+            
+            const typedChar = e.key; 
+            e.preventDefault(); 
+            
+            let expectedChar = expectedCharEl.getAttribute('data-char');
+            let isCorrect = typedChar === expectedChar;
+
+            if (!isCorrect) {
+                // ERROR
+                expectedCharEl.classList.add('incorrect');
+                expectedCharEl.classList.remove('correct');
+
+                // Increment error tracking only if the character is not already marked as incorrect.
+                if (!expectedCharEl.dataset.isError) { 
+                    problemKeysMap[expectedChar] = (problemKeysMap[expectedChar] || 0) + 1;
+                    drillErrors++;
+                    expectedCharEl.dataset.isError = 'true'; // Mark it
+                }
+                
+                // Note: No increment to drillCharsTyped for an error.
+            } else {
+                // CORRECT
+                expectedCharEl.classList.add('correct'); 
+                expectedCharEl.classList.remove('incorrect');
+                delete expectedCharEl.dataset.isError; // Clear error mark
+                
+                inputField.value += typedChar; // The correct char is entered
+                
+                // FIX: Increment drillCharsTyped on successful character entry!
+                drillCharsTyped++; 
+
+                // --- End of Chunk / Drill Logic ---
+                if (inputField.value.length === targetTextSpanArray.length) {
+                    // This chunk is complete
+                    
+                    // Logic to advance the currentChunkIndex by the words just completed
+                    let wordsTyped = 0;
+                    let charCount = 0;
+                    const chunkCharLength = targetTextSpanArray.length;
+                    
+                    for (let i = currentChunkIndex; i < currentDrillWords.length; i++) {
+                        charCount += currentDrillWords[i].length;
+                        wordsTyped++;
+                        if (charCount >= chunkCharLength) break;
+                    }
+                    
+                    currentChunkIndex += wordsTyped;
+                    // Note: drillCharsTyped is now updated per keypress, so we don't add the chunk size here.
+                    // drillCharsTyped correctly holds the total count.
+
+                    if (currentChunkIndex < currentDrillWords.length) {
+                        // Next chunk available, render it
+                        renderCurrentChunk(); 
+                    } else if (isTestRunning) {
+                        // All chunks complete, the drill is finished by text completion.
+                        stopTimer();
+                        currentDrillIndex++;
+                        showLessonResults();
+                    }
+                }
+            }
+            // CRITICAL FIX: Call updateDisplayAfterInput after EVERY keypress
+            updateDisplayAfterInput(); 
+        });
+        
+        function updateDisplayAfterInput() {
+            const activeIndex = inputField.value.length;
+            const isKeyDrill = currentLesson?.drills[currentDrillIndex]?.type === 'key_drill';
+
+            targetTextSpanArray.forEach((span, index) => {
+                const targetEl = isKeyDrill ? span.querySelector('.key-box') : span;
+                
+                if (targetEl) {
+                    // 1. Remove 'current' from ALL
+                    targetEl.classList.remove('current');
+                    span.classList.remove('current');
+
+                    // 2. Set colors based on state
+                    const isTyped = index < activeIndex;
+                    
+                    if (isTyped) {
+                        if (span.classList.contains('incorrect')) {
+                            // Already typed, but was typed incorrectly
+                            if (isKeyDrill) targetEl.classList.add('incorrect');
+                        } else {
+                            // Typed correctly, or was corrected
+                            span.classList.add('correct');
+                            if (isKeyDrill) targetEl.classList.add('correct');
+                        }
+                    } else {
+                        // Not yet typed
+                        span.classList.remove('correct', 'incorrect');
+                        if (isKeyDrill) targetEl.classList.remove('correct', 'incorrect');
+                    }
+                }
+            });
+            
+            // 3. Set the 'current' character/box
+            if (activeIndex < targetTextSpanArray.length) {
+                const currentSpan = targetTextSpanArray[activeIndex];
+                currentSpan.classList.add('current');
+
+                if (isKeyDrill) {
+                    const currentBox = currentSpan.querySelector('.key-box');
+                    if (currentBox) currentBox.classList.add('current');
+                }
+            }
+            
+            // Scroll logic (for non-key drills) - Keep the active line visible
+            if (!isKeyDrill) {
+                 const currentSpan = targetTextSpanArray[activeIndex];
+                 if (currentSpan) {
+                     const container = targetTextEl;
+                     // Only adjust scroll if the target element is outside the visible area
+                     if (currentSpan.offsetTop + currentSpan.offsetHeight > container.scrollTop + container.clientHeight || 
+                         currentSpan.offsetTop < container.scrollTop) {
+                          // Center the current line vertically in the container
+                          container.scrollTop = currentSpan.offsetTop - (container.clientHeight / 2) + (currentSpan.offsetHeight * 2);
+                     }
+                 }
+            }
+
+            calculateMetrics(); // IMPORTANT: Call metrics function here for real-time update
+        }
+
+        // --- Initialization ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                userName = document.getElementById('user-name').value.trim();
+                
+                if (userName) {
+                    navigate('welcome-page');
+                }
+            });
+
+            navigate('login-page');
+        });
+    </script>
+</body>
+</html>
